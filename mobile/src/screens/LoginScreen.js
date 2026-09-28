@@ -1,4 +1,5 @@
-import React,{useState} from "react";
+import React, {useState} from "react";
+
 
 import {
 View,
@@ -7,11 +8,13 @@ TextInput,
 TouchableOpacity,
 StyleSheet,
 Alert,
-ActivityIndicator
+ActivityIndicator,
+Image
 } from "react-native";
 
 
 import api from "../api/api";
+
 
 import {
 saveToken
@@ -19,13 +22,18 @@ saveToken
 
 
 
+
+
 export default function LoginScreen({navigation}){
 
 
-const [email,setEmail]=useState("");
-const [password,setPassword]=useState("");
+const [email,setEmail] = useState("");
 
-const [loading,setLoading]=useState(false);
+const [password,setPassword] = useState("");
+
+const [loading,setLoading] = useState(false);
+
+
 
 
 
@@ -48,18 +56,28 @@ password
 
 
 
-console.log("LOGIN RESPONSE:",response.data);
+console.log(
+"LOGIN RESPONSE:",
+response.data
+);
 
 
 
-await saveToken(response.data.token);
+await saveToken(
+response.data.token
+);
+
 
 
 
 Alert.alert(
-"Success",
+
+"Welcome Back 👋",
+
 "Login successful"
+
 );
+
 
 
 
@@ -69,12 +87,16 @@ navigation.replace("Home");
 
 }
 
+
 catch(error){
 
 
 console.log(
+
 "LOGIN ERROR:",
+
 error.response?.data || error.message
+
 );
 
 
@@ -85,43 +107,73 @@ Alert.alert(
 
 error.response?.data?.message
 ||
-error.message
+"Something went wrong"
 
 );
 
 
+
 }
+
 
 finally{
 
+
 setLoading(false);
 
+
 }
+
 
 
 };
 
 
 
+
+
+
 return(
+
 
 <View style={styles.container}>
 
 
-<Text style={styles.logo}>
-🔥 SmartHabit
-</Text>
+
+<Image
+
+source={require("../../assets/logo.png")}
+
+style={styles.logoImage}
+
+/>
 
 
-<Text style={styles.title}>
+
+
+<Text style={styles.welcome}>
+
 Welcome Back
+
 </Text>
+
+
+
+<Text style={styles.subtitle}>
+
+Build better habits every day
+
+</Text>
+
+
 
 
 
 <TextInput
 
 placeholder="Email"
+
+placeholderTextColor="#94A3B8"
 
 style={styles.input}
 
@@ -137,9 +189,13 @@ onChangeText={setEmail}
 
 
 
+
+
 <TextInput
 
 placeholder="Password"
+
+placeholderTextColor="#94A3B8"
 
 secureTextEntry
 
@@ -153,30 +209,53 @@ onChangeText={setPassword}
 
 
 
+
+
+
 <TouchableOpacity
 
 style={styles.button}
 
 onPress={login}
 
+disabled={loading}
+
 >
+
+
 
 {
 
 loading ?
 
-<ActivityIndicator color="white"/>
+
+<ActivityIndicator
+
+color="white"
+
+/>
+
 
 :
 
-<Text style={styles.text}>
+
+<Text style={styles.buttonText}>
+
 Login
+
 </Text>
+
+
 
 }
 
 
+
 </TouchableOpacity>
+
+
+
+
 
 
 
@@ -186,76 +265,171 @@ onPress={()=>navigation.navigate("Register")}
 
 >
 
+
 <Text style={styles.register}>
+
 Create Account
+
 </Text>
+
 
 </TouchableOpacity>
 
 
 
+
+
 </View>
+
 
 );
 
 
+
 }
 
 
 
-const styles=StyleSheet.create({
+
+
+
+
+const styles = StyleSheet.create({
+
+
 
 container:{
+
 flex:1,
+
 justifyContent:"center",
+
 padding:25,
+
 backgroundColor:"#F8FAFC"
+
 },
 
 
-logo:{
-fontSize:32,
+
+
+logoImage:{
+
+width:180,
+
+height:180,
+
+alignSelf:"center",
+
+resizeMode:"contain",
+
+marginBottom:20
+
+},
+
+
+
+
+welcome:{
+
+fontSize:30,
+
 fontWeight:"bold",
+
 textAlign:"center",
-color:"#4F46E5"
+
+color:"#0F172A"
+
 },
 
 
-title:{
-fontSize:26,
+
+
+subtitle:{
+
 textAlign:"center",
-marginVertical:30
+
+fontSize:15,
+
+color:"#64748B",
+
+marginTop:8,
+
+marginBottom:35
+
 },
+
+
+
 
 
 input:{
+
 backgroundColor:"white",
+
 borderWidth:1,
-borderColor:"#ddd",
-padding:15,
-borderRadius:12,
-marginBottom:15
+
+borderColor:"#E2E8F0",
+
+padding:16,
+
+borderRadius:16,
+
+marginBottom:15,
+
+fontSize:16
+
 },
+
+
+
+
 
 
 button:{
-backgroundColor:"#4F46E5",
-padding:16,
-borderRadius:12
+
+backgroundColor:"#16A34A",
+
+padding:17,
+
+borderRadius:16,
+
+marginTop:10
+
 },
 
 
-text:{
+
+
+
+buttonText:{
+
 color:"white",
-textAlign:"center",
-fontWeight:"bold"
+
+fontSize:16,
+
+fontWeight:"bold",
+
+textAlign:"center"
+
 },
+
+
+
 
 
 register:{
+
 textAlign:"center",
-marginTop:20
+
+marginTop:25,
+
+color:"#16A34A",
+
+fontWeight:"600"
+
 }
+
 
 
 });
