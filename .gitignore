@@ -1,0 +1,17 @@
+# Laravel
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/storage/logs/*
+
+# React Native
+mobile/node_modules/
+mobile/.expo/
+mobile/.expo-shared/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
