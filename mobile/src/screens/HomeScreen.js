@@ -1,32 +1,37 @@
-import React, {useEffect, useState} from "react";
+import React,{useEffect,useState} from "react";
 
 
 import {
 View,
 Text,
 StyleSheet,
+ScrollView,
 TouchableOpacity,
-ScrollView
+Alert
 } from "react-native";
 
 
 import api from "../api/api";
-
 
 import {
 removeToken
 } from "../storage/token";
 
 
+import HabitCard from "../components/HabitCard";
+
+
+
 
 export default function HomeScreen({navigation}){
 
 
-const [analytics,setAnalytics] = useState(null);
+const [analytics,setAnalytics]=useState({});
 
-const [insight,setInsight] = useState("");
+const [habits,setHabits]=useState([]);
 
-const [habits,setHabits] = useState([]);
+const [insight,setInsight]=useState("");
+
 
 
 
@@ -34,79 +39,60 @@ const [habits,setHabits] = useState([]);
 useEffect(()=>{
 
 
-const unsubscribe = navigation.addListener(
+const unsubscribe =
+navigation.addListener(
 "focus",
-()=>{
-
-loadData();
-
-}
-
+loadData
 );
 
 
 return unsubscribe;
 
 
-},[navigation]);
+},[]);
 
 
 
 
 
-const loadData = async()=>{
+
+const loadData=async()=>{
 
 
 try{
 
 
-// Analytics
-
-const analyticsResponse =
+let a =
 await api.get("/analytics");
 
 
-setAnalytics(
-analyticsResponse.data
-);
-
-
-
-// AI Insight
-
-const insightResponse =
-await api.get("/ai-insights");
-
-
-setInsight(
-insightResponse.data.insight
-);
+setAnalytics(a.data);
 
 
 
 
-// Habits
-
-const habitsResponse =
+let h =
 await api.get("/habits");
 
 
-setHabits(
-habitsResponse.data
-);
+setHabits(h.data);
+
+
+
+
+let i =
+await api.get("/ai-insights");
+
+
+setInsight(i.data.insight);
 
 
 
 }
 
-catch(error){
+catch(e){
 
-
-console.log(
-"HOME ERROR:",
-error.response?.data || error.message
-);
-
+console.log(e);
 
 }
 
@@ -117,11 +103,57 @@ error.response?.data || error.message
 
 
 
-const logout = async()=>{
+
+
+const completeHabit=async(id)=>{
+
+
+try{
+
+
+let res =
+await api.post(
+`/habits/${id}/complete`
+);
+
+
+
+Alert.alert(
+
+"🎉 Great Job",
+
+`+${res.data.reward.xp_added} XP Added`
+
+);
+
+
+
+loadData();
+
+
+}
+
+catch(e){
+
+Alert.alert(
+"Error",
+"Habit already completed"
+);
+
+}
+
+
+};
+
+
+
+
+
+
+const logout=async()=>{
 
 
 await removeToken();
-
 
 navigation.replace("Login");
 
@@ -132,19 +164,15 @@ navigation.replace("Login");
 
 
 
+
+
 return(
 
 
-<ScrollView
-
-style={styles.container}
-
-showsVerticalScrollIndicator={false}
-
->
+<ScrollView style={styles.container}>
 
 
-<Text style={styles.greeting}>
+<Text style={styles.header}>
 
 Good Evening, Robin 👋
 
@@ -154,62 +182,50 @@ Good Evening, Robin 👋
 
 
 
-<View style={styles.progressCard}>
+<View style={styles.levelCard}>
 
 
-<Text style={styles.cardTitle}>
+<Text style={styles.level}>
+
+Level {analytics.level ?? 1}
+
+</Text>
+
+
+<Text style={styles.xp}>
+
+XP {analytics.xp ?? 0}/100
+
+</Text>
+
+
+<Text style={styles.streak}>
+
+🔥 {analytics.current_streak ?? 0} Day Streak
+
+</Text>
+
+
+</View>
+
+
+
+
+
+
+<View style={styles.progress}>
+
+
+<Text style={styles.progressTitle}>
 
 Today's Progress
 
 </Text>
 
 
-
 <Text style={styles.percent}>
 
-{analytics?.completion_rate ?? 0}%
-
-</Text>
-
-
-
-<Text style={styles.whiteText}>
-
-Consistency Score
-
-</Text>
-
-
-
-</View>
-
-
-
-
-
-<View style={styles.row}>
-
-
-<View style={styles.smallCard}>
-
-
-<Text>
-
-🔥
-
-</Text>
-
-
-<Text style={styles.number}>
-
-{analytics?.total_habits ?? 0}
-
-</Text>
-
-
-<Text>
-
-Habits
+{analytics.completion_rate ?? 0}%
 
 </Text>
 
@@ -220,42 +236,41 @@ Habits
 
 
 
-<View style={styles.smallCard}>
 
+<Text style={styles.section}>
 
-<Text>
-
-✅
+Today's Quests
 
 </Text>
 
 
-<Text style={styles.number}>
-
-{analytics?.completed_today ?? 0}
-
-</Text>
 
 
-<Text>
+{
 
-Completed
+habits.map(item=>(
 
-</Text>
+<HabitCard
+
+key={item.id}
+
+habit={item}
+
+onComplete={completeHabit}
+
+/>
+
+))
 
 
-</View>
-
-
-</View>
-
-
-
-
+}
 
 
 
-<View style={styles.aiCard}>
+
+
+
+<View style={styles.ai}>
 
 
 <Text style={styles.aiTitle}>
@@ -267,128 +282,12 @@ Completed
 
 <Text>
 
-{insight ||
-"Create your first habit and start your journey."}
+{insight}
 
 </Text>
 
 
 </View>
-
-
-
-
-
-
-
-
-<View style={styles.habitCard}>
-
-
-<View style={styles.headerRow}>
-
-
-<Text style={styles.title}>
-
-Today's Habits
-
-</Text>
-
-
-
-
-<TouchableOpacity
-
-onPress={()=>navigation.navigate("AddHabit")}
-
->
-
-
-<Text style={styles.addText}>
-
-+ Add
-
-</Text>
-
-
-</TouchableOpacity>
-
-
-</View>
-
-
-
-
-
-
-{
-
-habits.length === 0 ?
-
-
-<Text>
-
-No habits created yet
-
-</Text>
-
-
-:
-
-
-habits.map((habit)=>{
-
-
-return(
-
-<View
-
-key={habit.id}
-
-style={styles.habitItem}
-
->
-
-
-<Text style={styles.habitTitle}>
-
-📚 {habit.title}
-
-</Text>
-
-
-<Text>
-
-{habit.frequency}
-
-</Text>
-
-
-<Text>
-
-Target: {habit.target}
-
-</Text>
-
-
-</View>
-
-
-);
-
-
-})
-
-
-}
-
-
-
-</View>
-
-
-
-
 
 
 
@@ -415,7 +314,6 @@ Logout
 
 
 
-
 </ScrollView>
 
 
@@ -428,242 +326,105 @@ Logout
 
 
 
-const styles = StyleSheet.create({
 
+const styles=StyleSheet.create({
 
 
 container:{
-
 flex:1,
-
-backgroundColor:"#F8FAFC",
-
+backgroundColor:"#F0FDF4",
 padding:20
-
 },
 
 
-
-greeting:{
-
+header:{
 fontSize:26,
-
 fontWeight:"bold",
-
 marginTop:40
-
 },
 
 
-
-
-progressCard:{
-
-backgroundColor:"#4F46E5",
-
+levelCard:{
+backgroundColor:"#16A34A",
 padding:25,
-
 borderRadius:25,
-
-marginTop:25
-
+marginTop:20
 },
 
 
-
-cardTitle:{
-
+level:{
 color:"white",
-
-fontSize:18
-
+fontSize:24,
+fontWeight:"bold"
 },
 
+
+xp:{
+color:"white",
+marginTop:5
+},
+
+
+streak:{
+color:"#FEF08A",
+marginTop:10
+},
+
+
+progress:{
+backgroundColor:"white",
+padding:25,
+borderRadius:25,
+marginTop:20
+},
+
+
+progressTitle:{
+fontSize:18
+},
 
 
 percent:{
-
-color:"white",
-
 fontSize:45,
-
-fontWeight:"bold"
-
+fontWeight:"bold",
+color:"#16A34A"
 },
 
 
-
-whiteText:{
-
-color:"white"
-
+section:{
+fontSize:22,
+fontWeight:"bold",
+marginTop:25
 },
 
 
-
-
-row:{
-
-flexDirection:"row",
-
-gap:15,
-
-marginTop:20
-
-},
-
-
-
-
-smallCard:{
-
-backgroundColor:"white",
-
-padding:20,
-
-borderRadius:20,
-
-flex:1
-
-},
-
-
-
-number:{
-
-fontSize:30,
-
-fontWeight:"bold"
-
-},
-
-
-
-
-
-aiCard:{
-
+ai:{
 backgroundColor:"#DCFCE7",
-
 padding:20,
-
 borderRadius:20,
-
-marginTop:20
-
+marginTop:25
 },
-
 
 
 aiTitle:{
-
 fontSize:18,
-
-fontWeight:"bold",
-
-marginBottom:8
-
-},
-
-
-
-
-habitCard:{
-
-backgroundColor:"white",
-
-padding:20,
-
-borderRadius:20,
-
-marginTop:20
-
-},
-
-
-
-headerRow:{
-
-flexDirection:"row",
-
-justifyContent:"space-between",
-
-alignItems:"center"
-
-},
-
-
-
-title:{
-
-fontSize:20,
-
 fontWeight:"bold"
-
 },
-
-
-
-addText:{
-
-color:"#4F46E5",
-
-fontWeight:"bold"
-
-},
-
-
-
-
-habitItem:{
-
-backgroundColor:"#F8FAFC",
-
-padding:15,
-
-borderRadius:15,
-
-marginTop:15
-
-},
-
-
-
-habitTitle:{
-
-fontSize:18,
-
-fontWeight:"bold"
-
-},
-
-
 
 
 logout:{
-
-marginTop:30,
-
 backgroundColor:"#EF4444",
-
 padding:15,
-
 borderRadius:15,
-
-marginBottom:30
-
+marginTop:30,
+marginBottom:40
 },
 
 
-
 logoutText:{
-
 color:"white",
-
 textAlign:"center",
-
 fontWeight:"bold"
-
 }
 
 

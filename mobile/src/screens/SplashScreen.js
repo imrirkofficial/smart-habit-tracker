@@ -1,27 +1,62 @@
-import React, {useEffect} from "react";
+import React,{useEffect,useRef} from "react";
 
 import {
 View,
-Image,
 Text,
-StyleSheet
+Image,
+StyleSheet,
+Animated
 } from "react-native";
+
 
 
 export default function SplashScreen({navigation}){
 
 
+const scale = useRef(
+new Animated.Value(0.5)
+).current;
+
+
+const opacity = useRef(
+new Animated.Value(0)
+).current;
+
+
+
 useEffect(()=>{
+
+
+Animated.parallel([
+
+Animated.spring(scale,{
+toValue:1,
+useNativeDriver:true
+}),
+
+
+Animated.timing(opacity,{
+toValue:1,
+duration:1200,
+useNativeDriver:true
+})
+
+
+]).start();
+
 
 
 setTimeout(()=>{
 
 navigation.replace("Login");
 
-},2500);
+},3000);
+
 
 
 },[]);
+
+
 
 
 
@@ -30,21 +65,36 @@ return(
 <View style={styles.container}>
 
 
+<Animated.View
+
+style={{
+
+opacity,
+
+transform:[
+{
+scale
+}
+]
+
+}}
+
+>
+
+
 <Image
 
-source={require("../../assets/logo.png")}
+source={
+require("../../assets/logo.png")
+}
 
 style={styles.logo}
 
 />
 
 
+</Animated.View>
 
-<Text style={styles.tagline}>
-
-Track Today • Build a Better Tomorrow
-
-</Text>
 
 
 </View>
@@ -56,27 +106,36 @@ Track Today • Build a Better Tomorrow
 
 
 
+
 const styles=StyleSheet.create({
+
 
 container:{
 flex:1,
 justifyContent:"center",
 alignItems:"center",
-backgroundColor:"#FFFFFF"
+backgroundColor:"#F0FDF4"
 },
 
 
 logo:{
-width:250,
-height:250,
+width:220,
+height:220,
 resizeMode:"contain"
 },
 
 
+title:{
+fontSize:28,
+fontWeight:"bold",
+color:"#14532D",
+marginTop:20
+},
+
+
 tagline:{
-marginTop:20,
-fontSize:16,
-color:"#166534"
+marginTop:10,
+color:"#16A34A"
 }
 
 

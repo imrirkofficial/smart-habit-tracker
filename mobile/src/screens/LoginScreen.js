@@ -150,25 +150,6 @@ style={styles.logoImage}
 
 
 
-
-<Text style={styles.welcome}>
-
-Welcome Back
-
-</Text>
-
-
-
-<Text style={styles.subtitle}>
-
-Build better habits every day
-
-</Text>
-
-
-
-
-
 <TextInput
 
 placeholder="Email"

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 
+
 import {
 View,
 Text,
@@ -7,7 +8,8 @@ TextInput,
 TouchableOpacity,
 StyleSheet,
 Alert,
-ActivityIndicator
+ActivityIndicator,
+Image
 } from "react-native";
 
 
@@ -15,14 +17,20 @@ import api from "../api/api";
 
 
 
+
+
 export default function RegisterScreen({navigation}){
 
 
 const [name,setName] = useState("");
+
 const [email,setEmail] = useState("");
+
 const [password,setPassword] = useState("");
 
 const [loading,setLoading] = useState(false);
+
+
 
 
 
@@ -51,40 +59,63 @@ setLoading(true);
 
 const response = await api.post("/register",{
 
+
 name,
+
 email,
+
 password,
-password_confirmation: password
+
+password_confirmation:password
+
 
 });
 
 
 
-console.log(response.data);
+console.log(
+"REGISTER RESPONSE:",
+response.data
+);
+
 
 
 
 Alert.alert(
-"Success",
-"Account created successfully",
+
+"Account Created 🎉",
+
+"Please login to continue",
+
 [
+
 {
+
 text:"Login",
+
 onPress:()=>navigation.navigate("Login")
+
 }
+
 ]
+
 );
 
 
 
 }
 
+
+
 catch(error){
 
 
 console.log(
+
 "REGISTER ERROR:",
+
 error.response?.data || error.message
+
 );
 
 
@@ -93,14 +124,17 @@ Alert.alert(
 
 "Registration Failed",
 
-error.response?.data?.message 
+error.response?.data?.message
 ||
 "Something went wrong"
 
 );
 
 
+
 }
+
+
 
 finally{
 
@@ -115,26 +149,54 @@ setLoading(false);
 
 
 
+
+
+
 return(
 
 
 <View style={styles.container}>
 
 
-<Text style={styles.logo}>
-🔥 SmartHabit
-</Text>
+
+
+<Image
+
+source={require("../../assets/logo.png")}
+
+style={styles.logo}
+
+/>
+
+
+
 
 
 <Text style={styles.title}>
+
 Create Account
+
 </Text>
+
+
+
+<Text style={styles.subtitle}>
+
+Start building better habits today
+
+</Text>
+
+
+
+
 
 
 
 <TextInput
 
-placeholder="Name"
+placeholder="Full Name"
+
+placeholderTextColor="#94A3B8"
 
 style={styles.input}
 
@@ -146,9 +208,15 @@ onChangeText={setName}
 
 
 
+
+
+
+
 <TextInput
 
 placeholder="Email"
+
+placeholderTextColor="#94A3B8"
 
 style={styles.input}
 
@@ -164,9 +232,15 @@ onChangeText={setEmail}
 
 
 
+
+
+
+
 <TextInput
 
 placeholder="Password"
+
+placeholderTextColor="#94A3B8"
 
 secureTextEntry
 
@@ -177,6 +251,10 @@ value={password}
 onChangeText={setPassword}
 
 />
+
+
+
+
 
 
 
@@ -192,22 +270,33 @@ disabled={loading}
 >
 
 
+
 {
 
 loading ?
 
 <ActivityIndicator color="white"/>
 
+
 :
 
-<Text style={styles.text}>
-Register
+
+<Text style={styles.buttonText}>
+
+Create Account
+
 </Text>
+
 
 }
 
 
+
 </TouchableOpacity>
+
+
+
+
 
 
 
@@ -219,12 +308,16 @@ onPress={()=>navigation.navigate("Login")}
 >
 
 
-<Text style={styles.login}>
-Already have account? Login
+<Text style={styles.loginText}>
+
+Already have an account? Login
+
 </Text>
 
 
 </TouchableOpacity>
+
+
 
 
 
@@ -233,68 +326,156 @@ Already have account? Login
 
 );
 
+
 }
+
+
+
+
 
 
 
 const styles = StyleSheet.create({
 
 
+
 container:{
+
 flex:1,
+
 justifyContent:"center",
+
 padding:25,
+
 backgroundColor:"#F8FAFC"
+
 },
+
+
+
 
 
 logo:{
-fontSize:32,
-fontWeight:"bold",
-textAlign:"center",
-color:"#4F46E5",
-marginBottom:20
+
+width:150,
+
+height:150,
+
+alignSelf:"center",
+
+resizeMode:"contain",
+
+marginBottom:15
+
 },
+
+
+
+
 
 
 title:{
-fontSize:28,
+
+fontSize:30,
+
 fontWeight:"bold",
+
 textAlign:"center",
-marginBottom:30
+
+color:"#0F172A"
+
 },
+
+
+
+
+
+subtitle:{
+
+textAlign:"center",
+
+marginTop:8,
+
+marginBottom:35,
+
+color:"#64748B",
+
+fontSize:15
+
+},
+
+
+
+
 
 
 input:{
+
 backgroundColor:"white",
+
 borderWidth:1,
-borderColor:"#ddd",
-padding:15,
-borderRadius:15,
-marginBottom:15
+
+borderColor:"#E2E8F0",
+
+padding:16,
+
+borderRadius:16,
+
+marginBottom:15,
+
+fontSize:16
+
 },
+
+
+
+
 
 
 button:{
-backgroundColor:"#22C55E",
-padding:16,
-borderRadius:15,
+
+backgroundColor:"#16A34A",
+
+padding:17,
+
+borderRadius:16,
+
 marginTop:10
+
 },
 
 
-text:{
+
+
+
+buttonText:{
+
 color:"white",
+
 textAlign:"center",
-fontWeight:"bold"
+
+fontWeight:"bold",
+
+fontSize:16
+
 },
 
 
-login:{
+
+
+
+loginText:{
+
 textAlign:"center",
-marginTop:20,
-color:"#4F46E5"
+
+marginTop:25,
+
+color:"#16A34A",
+
+fontWeight:"600"
+
 }
+
 
 
 });
