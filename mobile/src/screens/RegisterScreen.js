@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React,{useState} from "react";
 
 
 import {
@@ -16,31 +16,34 @@ Image
 import api from "../api/api";
 
 
+import i18n from "../localization/i18n";
+
+
 
 
 
 export default function RegisterScreen({navigation}){
 
 
-const [name,setName] = useState("");
+const [name,setName]=useState("");
 
-const [email,setEmail] = useState("");
+const [email,setEmail]=useState("");
 
-const [password,setPassword] = useState("");
+const [password,setPassword]=useState("");
 
-const [loading,setLoading] = useState(false);
-
-
+const [loading,setLoading]=useState(false);
 
 
 
-const register = async()=>{
+
+
+const register=async()=>{
 
 
 if(!name || !email || !password){
 
 Alert.alert(
-"Missing Information",
+i18n.t("create_account"),
 "Please fill all fields"
 );
 
@@ -57,8 +60,7 @@ setLoading(true);
 
 
 
-const response = await api.post("/register",{
-
+await api.post("/register",{
 
 name,
 
@@ -68,33 +70,22 @@ password,
 
 password_confirmation:password
 
-
 });
-
-
-
-console.log(
-"REGISTER RESPONSE:",
-response.data
-);
-
 
 
 
 Alert.alert(
 
-"Account Created 🎉",
+"🎉",
 
-"Please login to continue",
+"Account created successfully",
 
 [
 
 {
-
-text:"Login",
+text:i18n.t("login"),
 
 onPress:()=>navigation.navigate("Login")
-
 }
 
 ]
@@ -102,38 +93,23 @@ onPress:()=>navigation.navigate("Login")
 );
 
 
-
 }
-
 
 
 catch(error){
 
 
-console.log(
-
-"REGISTER ERROR:",
-
-error.response?.data || error.message
-
-);
-
-
-
 Alert.alert(
 
-"Registration Failed",
+"Error",
 
-error.response?.data?.message
-||
+error.response?.data?.message ||
 "Something went wrong"
 
 );
 
 
-
 }
-
 
 
 finally{
@@ -143,6 +119,7 @@ setLoading(false);
 
 
 }
+
 
 
 };
@@ -156,8 +133,6 @@ return(
 
 
 <View style={styles.container}>
-
-
 
 
 <Image
@@ -174,19 +149,18 @@ style={styles.logo}
 
 <Text style={styles.title}>
 
-Create Account
+{i18n.t("create_account")}
 
 </Text>
+
 
 
 
 <Text style={styles.subtitle}>
 
-Start building better habits today
+{i18n.t("tagline")}
 
 </Text>
-
-
 
 
 
@@ -194,13 +168,9 @@ Start building better habits today
 
 <TextInput
 
-placeholder="Full Name"
-
-placeholderTextColor="#94A3B8"
+placeholder="Name"
 
 style={styles.input}
-
-value={name}
 
 onChangeText={setName}
 
@@ -210,21 +180,15 @@ onChangeText={setName}
 
 
 
-
-
 <TextInput
 
-placeholder="Email"
-
-placeholderTextColor="#94A3B8"
+placeholder={i18n.t("email")}
 
 style={styles.input}
 
 keyboardType="email-address"
 
 autoCapitalize="none"
-
-value={email}
 
 onChangeText={setEmail}
 
@@ -234,25 +198,17 @@ onChangeText={setEmail}
 
 
 
-
-
 <TextInput
 
-placeholder="Password"
-
-placeholderTextColor="#94A3B8"
+placeholder={i18n.t("password")}
 
 secureTextEntry
 
 style={styles.input}
 
-value={password}
-
 onChangeText={setPassword}
 
 />
-
-
 
 
 
@@ -265,10 +221,7 @@ style={styles.button}
 
 onPress={register}
 
-disabled={loading}
-
 >
-
 
 
 {
@@ -280,10 +233,9 @@ loading ?
 
 :
 
-
 <Text style={styles.buttonText}>
 
-Create Account
+{i18n.t("create_account")}
 
 </Text>
 
@@ -298,9 +250,6 @@ Create Account
 
 
 
-
-
-
 <TouchableOpacity
 
 onPress={()=>navigation.navigate("Login")}
@@ -310,7 +259,9 @@ onPress={()=>navigation.navigate("Login")}
 
 <Text style={styles.loginText}>
 
-Already have an account? Login
+{i18n.t("already_account")}
+
+ Login
 
 </Text>
 
@@ -333,149 +284,68 @@ Already have an account? Login
 
 
 
-
-
-const styles = StyleSheet.create({
-
-
+const styles=StyleSheet.create({
 
 container:{
-
 flex:1,
-
 justifyContent:"center",
-
 padding:25,
-
 backgroundColor:"#F8FAFC"
-
 },
-
-
-
 
 
 logo:{
-
 width:150,
-
 height:150,
-
 alignSelf:"center",
-
 resizeMode:"contain",
-
 marginBottom:15
-
 },
-
-
-
-
 
 
 title:{
-
 fontSize:30,
-
 fontWeight:"bold",
-
 textAlign:"center",
-
 color:"#0F172A"
-
 },
-
-
-
 
 
 subtitle:{
-
 textAlign:"center",
-
-marginTop:8,
-
-marginBottom:35,
-
-color:"#64748B",
-
-fontSize:15
-
+marginVertical:25,
+color:"#64748B"
 },
-
-
-
-
 
 
 input:{
-
 backgroundColor:"white",
-
 borderWidth:1,
-
 borderColor:"#E2E8F0",
-
 padding:16,
-
 borderRadius:16,
-
-marginBottom:15,
-
-fontSize:16
-
+marginBottom:15
 },
-
-
-
-
 
 
 button:{
-
 backgroundColor:"#16A34A",
-
 padding:17,
-
-borderRadius:16,
-
-marginTop:10
-
+borderRadius:16
 },
-
-
-
 
 
 buttonText:{
-
 color:"white",
-
 textAlign:"center",
-
-fontWeight:"bold",
-
-fontSize:16
-
+fontWeight:"bold"
 },
 
 
-
-
-
 loginText:{
-
 textAlign:"center",
-
 marginTop:25,
-
-color:"#16A34A",
-
-fontWeight:"600"
-
+color:"#16A34A"
 }
-
-
 
 });

@@ -21,6 +21,14 @@ saveToken
 } from "../storage/token";
 
 
+import {
+saveLanguage
+} from "../storage/language";
+
+
+import i18n from "../localization/i18n";
+
+
 
 
 
@@ -37,6 +45,21 @@ const [loading,setLoading] = useState(false);
 
 
 
+
+const changeLanguage = async(language)=>{
+
+
+i18n.locale = language;
+
+
+await saveLanguage(language);
+
+
+
+};
+
+
+
 const login = async()=>{
 
 
@@ -49,46 +72,62 @@ setLoading(true);
 
 const response = await api.post("/login",{
 
+
 email,
+
 password
+
 
 });
 
 
 
+
 console.log(
+
 "LOGIN RESPONSE:",
+
 response.data
+
 );
+
+
 
 
 
 await saveToken(
+
 response.data.token
+
 );
+
+
 
 
 
 
 Alert.alert(
 
-"Welcome Back 👋",
+i18n.t("welcome"),
 
-"Login successful"
+i18n.t("login") + " successful"
 
 );
 
 
 
 
-navigation.replace("Home");
+
+navigation.replace("Main");
 
 
 
 }
 
 
+
 catch(error){
+
 
 
 console.log(
@@ -101,12 +140,16 @@ error.response?.data || error.message
 
 
 
+
+
 Alert.alert(
 
 "Login Failed",
 
 error.response?.data?.message
+
 ||
+
 "Something went wrong"
 
 );
@@ -114,6 +157,7 @@ error.response?.data?.message
 
 
 }
+
 
 
 finally{
@@ -139,7 +183,6 @@ return(
 <View style={styles.container}>
 
 
-
 <Image
 
 source={require("../../assets/logo.png")}
@@ -150,9 +193,72 @@ style={styles.logoImage}
 
 
 
+
+
+{/* Language Selector */}
+
+
+<View style={styles.languageBox}>
+
+
+<TouchableOpacity
+
+onPress={()=>changeLanguage("bn")}
+
+>
+
+
+<Text style={styles.languageText}>
+
+English
+
+</Text>
+
+
+</TouchableOpacity>
+
+
+
+
+<Text style={styles.separator}>
+
+|
+
+</Text>
+
+
+
+
+
+<TouchableOpacity
+
+onPress={()=>changeLanguage("bn")}
+
+>
+
+
+<Text style={styles.languageText}>
+
+বাংলা
+
+</Text>
+
+
+</TouchableOpacity>
+
+
+
+</View>
+
+
+
+
+
+
+
 <TextInput
 
-placeholder="Email"
+placeholder={i18n.t("email")}
 
 placeholderTextColor="#94A3B8"
 
@@ -172,9 +278,11 @@ onChangeText={setEmail}
 
 
 
+
+
 <TextInput
 
-placeholder="Password"
+placeholder={i18n.t("password")}
 
 placeholderTextColor="#94A3B8"
 
@@ -193,6 +301,8 @@ onChangeText={setPassword}
 
 
 
+
+
 <TouchableOpacity
 
 style={styles.button}
@@ -202,6 +312,7 @@ onPress={login}
 disabled={loading}
 
 >
+
 
 
 
@@ -222,13 +333,13 @@ color="white"
 
 <Text style={styles.buttonText}>
 
-Login
+{i18n.t("login")}
 
 </Text>
 
 
-
 }
+
 
 
 
@@ -249,12 +360,13 @@ onPress={()=>navigation.navigate("Register")}
 
 <Text style={styles.register}>
 
-Create Account
+{i18n.t("create_account")}
 
 </Text>
 
 
 </TouchableOpacity>
+
 
 
 
@@ -268,6 +380,8 @@ Create Account
 
 
 }
+
+
 
 
 
@@ -294,6 +408,8 @@ backgroundColor:"#F8FAFC"
 
 
 
+
+
 logoImage:{
 
 width:180,
@@ -311,34 +427,46 @@ marginBottom:20
 
 
 
-welcome:{
 
-fontSize:30,
+languageBox:{
+
+flexDirection:"row",
+
+justifyContent:"center",
+
+alignItems:"center",
+
+marginBottom:25
+
+},
+
+
+
+
+
+languageText:{
+
+color:"#16A34A",
 
 fontWeight:"bold",
 
-textAlign:"center",
+fontSize:16,
 
-color:"#0F172A"
+marginHorizontal:10
+
+},
+
+
+
+
+separator:{
+
+color:"#94A3B8",
+
+fontSize:18
 
 },
 
-
-
-
-subtitle:{
-
-textAlign:"center",
-
-fontSize:15,
-
-color:"#64748B",
-
-marginTop:8,
-
-marginBottom:35
-
-},
 
 
 
@@ -378,6 +506,7 @@ borderRadius:16,
 marginTop:10
 
 },
+
 
 
 

@@ -1,0 +1,61 @@
+{
+  "app_name": "স্মার্ট হ্যাবিট ট্র্যাকার",
+  "tagline": "আজকে ট্র্যাক করুন • আগামীকাল আরও ভালো হোন",
+
+  "login": "লগইন",
+  "logout": "লগআউট",
+
+  "welcome": "স্বাগতম",
+  "email": "ইমেইল",
+  "password": "পাসওয়ার্ড",
+
+  "create_account": "অ্যাকাউন্ট তৈরি করুন",
+  "already_account": "আগে থেকেই অ্যাকাউন্ট আছে?",
+
+  "dashboard": "ড্যাশবোর্ড",
+  "today_progress": "আজকের অগ্রগতি",
+
+  "habits": "আজকের অভ্যাস",
+  "add_habit": "অভ্যাস যোগ করুন",
+  "complete": "সম্পন্ন করুন",
+
+  "level": "লেভেল",
+  "xp": "এক্সপি",
+  "streak": "দিনের ধারাবাহিকতা",
+
+  "ai_coach": "AI কোচ",
+
+  "achievements": "অর্জনসমূহ",
+  "profile": "প্রোফাইল",
+
+  "no_achievement": "এখনও কোনো অর্জন নেই",
+
+  "coins": "কয়েন",
+  "current_streak": "বর্তমান ধারাবাহিকতা",
+  "longest_streak": "সর্বোচ্চ ধারাবাহিকতা",
+
+  "settings": "সেটিংস",
+
+  "language": "ভাষা",
+  "english": "English",
+  "bangla": "বাংলা",
+
+  "save": "সংরক্ষণ করুন",
+  "cancel": "বাতিল করুন",
+
+  "good_morning": "সুপ্রভাত",
+  "good_evening": "শুভ সন্ধ্যা",
+
+  "today_quests": "আজকের লক্ষ্য",
+
+  "success": "সফল",
+  "error": "ত্রুটি",
+
+  "habit_completed": "অভ্যাস সফলভাবে সম্পন্ন হয়েছে",
+
+  "xp_added": "এক্সপি যোগ হয়েছে",
+
+  "profile_level": "আপনার লেভেল",
+
+  "member_since": "সদস্য হয়েছেন"
+}

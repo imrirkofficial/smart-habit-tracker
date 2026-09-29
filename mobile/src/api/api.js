@@ -1,6 +1,8 @@
 import axios from "axios";
 
-import {getToken} from "../storage/token";
+import {
+getToken
+} from "../storage/token";
 
 
 const api = axios.create({
@@ -15,8 +17,11 @@ const api = axios.create({
 });
 
 
+
 api.interceptors.request.use(
+
 async(config)=>{
+
 
 const token = await getToken();
 
@@ -30,6 +35,7 @@ config.headers.Authorization =
 
 
 return config;
+
 
 });
 

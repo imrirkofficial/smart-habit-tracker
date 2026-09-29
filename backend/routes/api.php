@@ -6,15 +6,23 @@ use Illuminate\Support\Facades\Route;
 // Controllers
 
 use App\Http\Controllers\API\AuthController;
+
 use App\Http\Controllers\API\HabitController;
 use App\Http\Controllers\API\HabitLogController;
 
 use App\Http\Controllers\API\GoalController;
+
 use App\Http\Controllers\API\AchievementController;
+
 use App\Http\Controllers\API\AnalyticsController;
+
 use App\Http\Controllers\API\AIInsightController;
 
 use App\Http\Controllers\API\HabitCompletionController;
+
+use App\Http\Controllers\API\ProfileController;
+
+
 
 
 
@@ -26,13 +34,20 @@ use App\Http\Controllers\API\HabitCompletionController;
 
 
 Route::post('/register',
+
     [AuthController::class, 'register']
+
 );
+
 
 
 Route::post('/login',
+
     [AuthController::class, 'login']
+
 );
+
+
 
 
 
@@ -58,8 +73,31 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::post('/logout',
+
         [AuthController::class, 'logout']
+
     );
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Profile API
+    |--------------------------------------------------------------------------
+    */
+
+
+    Route::get('/profile',
+
+        [ProfileController::class, 'index']
+
+    );
+
+
 
 
 
@@ -73,9 +111,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResource(
+
         'habits',
+
         HabitController::class
+
     );
+
+
 
 
 
@@ -84,15 +127,20 @@ Route::middleware('auth:sanctum')->group(function () {
     /*
     |--------------------------------------------------------------------------
     | Habit Completion Engine
-    | XP + Streak + Rewards
+    | XP + Coins + Streak
     |--------------------------------------------------------------------------
     */
 
 
     Route::post(
+
         '/habits/{habit}/complete',
+
         [HabitCompletionController::class, 'complete']
+
     );
+
+
 
 
 
@@ -106,9 +154,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResource(
+
         'habit-logs',
+
         HabitLogController::class
+
     );
+
+
 
 
 
@@ -122,9 +175,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResource(
+
         'goals',
+
         GoalController::class
+
     );
+
+
 
 
 
@@ -132,15 +190,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Achievements
+    | Achievement System
     |--------------------------------------------------------------------------
     */
 
 
     Route::get(
+
         '/achievements',
+
         [AchievementController::class, 'index']
+
     );
+
+
 
 
 
@@ -154,9 +217,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get(
+
         '/analytics',
+
         [AnalyticsController::class, 'index']
+
     );
+
+
 
 
 
@@ -164,15 +232,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | AI Habit Coach Insights
+    | AI Habit Coach
     |--------------------------------------------------------------------------
     */
 
 
     Route::get(
+
         '/ai-insights',
+
         [AIInsightController::class, 'index']
+
     );
+
 
 
 });

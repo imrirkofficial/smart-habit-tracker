@@ -2,12 +2,12 @@ import React from "react";
 
 
 import {
-    NavigationContainer
+NavigationContainer
 } from "@react-navigation/native";
 
 
 import {
-    createNativeStackNavigator
+createNativeStackNavigator
 } from "@react-navigation/native-stack";
 
 
@@ -15,13 +15,19 @@ import {
 import SplashScreen from "../screens/SplashScreen";
 
 import LoginScreen from "../screens/LoginScreen";
+
 import RegisterScreen from "../screens/RegisterScreen";
-import HomeScreen from "../screens/HomeScreen";
+
 import AddHabitScreen from "../screens/AddHabitScreen";
 
 
+import MainTabs from "./MainTabs";
 
-const Stack = createNativeStackNavigator();
+
+
+
+const Stack =
+createNativeStackNavigator();
 
 
 
@@ -30,85 +36,100 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator(){
 
 
-    return(
+
+return(
 
 
-        <NavigationContainer>
-
-
-            <Stack.Navigator
-
-
-                initialRouteName="Splash"
-
-
-                screenOptions={{
-                    headerShown:false
-                }}
-
-
-            >
+<NavigationContainer>
 
 
 
-                <Stack.Screen
-
-                    name="Splash"
-
-                    component={SplashScreen}
-
-                />
+<Stack.Navigator
 
 
+initialRouteName="Splash"
 
-                <Stack.Screen
 
-                    name="Login"
+screenOptions={{
 
-                    component={LoginScreen}
+headerShown:false
 
-                />
+}}
+
+
+>
 
 
 
-                <Stack.Screen
 
-                    name="Register"
+<Stack.Screen
 
-                    component={RegisterScreen}
+name="Splash"
 
-                />
+component={SplashScreen}
 
-
-
-                <Stack.Screen
-
-                    name="Home"
-
-                    component={HomeScreen}
-
-                />
+/>
 
 
 
-                <Stack.Screen
-
-                    name="AddHabit"
-
-                    component={AddHabitScreen}
-
-                />
 
 
+<Stack.Screen
 
-            </Stack.Navigator>
+name="Login"
+
+component={LoginScreen}
+
+/>
 
 
 
-        </NavigationContainer>
 
 
-    );
+<Stack.Screen
+
+name="Register"
+
+component={RegisterScreen}
+
+/>
+
+
+
+
+
+<Stack.Screen
+
+name="Main"
+
+component={MainTabs}
+
+/>
+
+
+
+
+
+<Stack.Screen
+
+name="AddHabit"
+
+component={AddHabitScreen}
+
+/>
+
+
+
+
+
+</Stack.Navigator>
+
+
+
+</NavigationContainer>
+
+
+);
 
 
 }

@@ -1,0 +1,61 @@
+{
+  "app_name": "Smart Habit Tracker",
+  "tagline": "Track Today • Build a Better Tomorrow",
+
+  "login": "Login",
+  "logout": "Logout",
+
+  "welcome": "Welcome",
+  "email": "Email",
+  "password": "Password",
+
+  "create_account": "Create Account",
+  "already_account": "Already have an account?",
+
+  "dashboard": "Dashboard",
+  "today_progress": "Today's Progress",
+
+  "habits": "Today's Habits",
+  "add_habit": "Add Habit",
+  "complete": "Complete",
+
+  "level": "Level",
+  "xp": "XP",
+  "streak": "Day Streak",
+
+  "ai_coach": "AI Habit Coach",
+
+  "achievements": "Achievements",
+  "profile": "Profile",
+
+  "no_achievement": "No achievements yet",
+
+  "coins": "Coins",
+  "current_streak": "Current Streak",
+  "longest_streak": "Longest Streak",
+
+  "settings": "Settings",
+
+  "language": "Language",
+  "english": "English",
+  "bangla": "বাংলা",
+
+  "save": "Save",
+  "cancel": "Cancel",
+
+  "good_morning": "Good Morning",
+  "good_evening": "Good Evening",
+
+  "today_quests": "Today's Quests",
+
+  "success": "Success",
+  "error": "Error",
+
+  "habit_completed": "Habit completed successfully",
+
+  "xp_added": "XP Added",
+
+  "profile_level": "Your Level",
+
+  "member_since": "Member Since"
+}
