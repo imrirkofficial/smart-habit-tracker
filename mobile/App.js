@@ -1,18 +1,32 @@
-import React,{useEffect,useState} from "react";
+import React, {
+    useEffect,
+    useState
+} from "react";
 
 
 import {
-View,
-ActivityIndicator
+    View,
+    ActivityIndicator,
+    StyleSheet
 } from "react-native";
 
 
-import AppNavigator from "./src/navigation/AppNavigator";
+import AppNavigator
+from "./src/navigation/AppNavigator";
 
 
 import {
-loadLanguage
+    loadLanguage
 } from "./src/localization/i18n";
+
+
+import {
+    setupDefaultNotifications
+} from "./src/services/notificationService";
+
+
+import useNotifications
+from "./src/hooks/useNotifications";
 
 
 
@@ -21,70 +35,116 @@ loadLanguage
 export default function App(){
 
 
-
-const [ready,setReady] = useState(false);
-
-
-
-
-useEffect(()=>{
-
-
-const start = async()=>{
-
-
-await loadLanguage();
-
-
-setReady(true);
-
-
-};
-
-
-start();
+    const [ready,setReady] =
+        useState(false);
 
 
 
-},[]);
+    useNotifications();
+
+
+
+    useEffect(()=>{
+
+
+        const initializeApp =
+            async()=>{
+
+
+                try{
+
+
+                    /*
+                    Load saved language
+                    */
+
+
+                    await loadLanguage();
+
+
+
+                    /*
+                    Expo Go/Web automatically
+                    skipped by service.
+                    */
+
+
+                    await setupDefaultNotifications();
+
+
+                }
+
+                catch(error){
+
+
+                    console.log(
+
+                        "APP INITIALIZATION ERROR:",
+
+                        error
+
+                    );
+
+
+                }
+
+                finally{
+
+
+                    setReady(true);
+
+
+                }
+
+
+            };
+
+
+        initializeApp();
+
+
+    },[]);
 
 
 
 
 
-
-if(!ready){
-
-
-return(
-
-<View
-
-style={{
-
-flex:1,
-
-justifyContent:"center",
-
-alignItems:"center"
-
-}}
-
->
+    if(!ready){
 
 
-<ActivityIndicator
-
-size="large"
-
-/>
+        return(
 
 
-</View>
+            <View
+                style={styles.loading}
+            >
 
 
-);
+                <ActivityIndicator
 
+                    size="large"
+
+                    color="#16A34A"
+
+                />
+
+
+            </View>
+
+
+        );
+
+    }
+
+
+
+
+
+    return(
+
+        <AppNavigator/>
+
+    );
 
 }
 
@@ -92,11 +152,21 @@ size="large"
 
 
 
-return(
-
-<AppNavigator/>
-
-);
+const styles =
+StyleSheet.create({
 
 
-}
+    loading:{
+
+        flex:1,
+
+        justifyContent:"center",
+
+        alignItems:"center",
+
+        backgroundColor:"#F0FDF4"
+
+    }
+
+
+});

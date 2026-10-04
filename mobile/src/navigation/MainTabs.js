@@ -11,16 +11,30 @@ Ionicons
 } from "@expo/vector-icons";
 
 
+
 import HomeScreen from "../screens/HomeScreen";
+
+import AnalyticsScreen from "../screens/AnalyticsScreen";
+
+import CalendarScreen from "../screens/CalendarScreen";
+
 import AchievementScreen from "../screens/AchievementScreen";
+
+import AICoachScreen from "../screens/AICoachScreen";
+
 import ProfileScreen from "../screens/ProfileScreen";
+
 
 
 import i18n from "../localization/i18n";
 
 
 
+
+
 const Tab = createBottomTabNavigator();
+
+
 
 
 
@@ -47,15 +61,22 @@ tabBarActiveTintColor:"#16A34A",
 tabBarInactiveTintColor:"#64748B",
 
 
+
 tabBarStyle:{
 
-height:65,
+height:70,
 
 paddingBottom:8,
 
-paddingTop:8
+paddingTop:8,
+
+backgroundColor:"#FFFFFF",
+
+borderTopWidth:0
 
 },
+
+
 
 
 
@@ -66,23 +87,71 @@ let iconName;
 
 
 
-if(route.name==="Home"){
+switch(route.name){
+
+
+
+case "Home":
 
 iconName="home";
 
-}
+break;
 
-else if(route.name==="Achievements"){
+
+
+
+case "Analytics":
+
+iconName="bar-chart";
+
+break;
+
+
+
+
+case "Calendar":
+
+iconName="calendar";
+
+break;
+
+
+
+
+case "Achievements":
 
 iconName="trophy";
 
-}
+break;
 
-else{
+
+
+
+case "Coach":
+
+iconName="chatbubble-ellipses";
+
+break;
+
+
+
+
+case "Profile":
 
 iconName="person";
 
+break;
+
+
+
+
+default:
+
+iconName="home";
+
+
 }
+
 
 
 
@@ -109,7 +178,10 @@ color={color}
 })}
 
 
+
 >
+
+
 
 
 
@@ -126,6 +198,48 @@ title:i18n.t("dashboard")
 }}
 
 />
+
+
+
+
+
+
+
+<Tab.Screen
+
+name="Analytics"
+
+component={AnalyticsScreen}
+
+options={{
+
+title:i18n.t("analytics")
+
+}}
+
+/>
+
+
+
+
+
+
+
+<Tab.Screen
+
+name="Calendar"
+
+component={CalendarScreen}
+
+options={{
+
+title:i18n.t("calendar")
+
+}}
+
+/>
+
+
 
 
 
@@ -149,6 +263,28 @@ title:i18n.t("achievements")
 
 
 
+
+
+<Tab.Screen
+
+name="Coach"
+
+component={AICoachScreen}
+
+options={{
+
+title:i18n.t("ai_coach")
+
+}}
+
+/>
+
+
+
+
+
+
+
 <Tab.Screen
 
 name="Profile"
@@ -167,8 +303,9 @@ title:i18n.t("profile")
 
 
 
-</Tab.Navigator>
 
+
+</Tab.Navigator>
 
 
 );

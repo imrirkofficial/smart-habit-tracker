@@ -57,5 +57,39 @@
 
   "profile_level": "আপনার লেভেল",
 
-  "member_since": "সদস্য হয়েছেন"
+  "member_since": "সদস্য হয়েছেন",
+
+
+  "analytics": "বিশ্লেষণ",
+
+  "calendar": "ক্যালেন্ডার",
+
+  "weekly_report": "সাপ্তাহিক রিপোর্ট",
+
+  "completion_rate": "সম্পন্নের হার",
+
+  "performance": "পারফরম্যান্স",
+
+  "completed": "সম্পন্ন",
+
+  "missed": "অসম্পন্ন",
+
+  "habit_score": "অভ্যাস স্কোর",
+
+  "unlocked": "আনলক হয়েছে",
+
+  "locked": "লক করা আছে",
+
+  "days": "দিন",
+
+  "best_day": "সেরা দিন",
+
+  "productivity": "উৎপাদনশীলতা",
+
+  "total_habits": "মোট অভ্যাস",
+
+  "completed_habits": "সম্পন্ন অভ্যাস",
+
+  "calendar_view": "অভ্যাস ক্যালেন্ডার"
+
 }

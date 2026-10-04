@@ -58,4 +58,35 @@
   "profile_level": "Your Level",
 
   "member_since": "Member Since"
+
+  ,
+
+"analytics": "Analytics",
+"calendar": "Calendar",
+
+"weekly_report": "Weekly Report",
+"completion_rate": "Completion Rate",
+
+"performance": "Performance",
+
+"completed": "Completed",
+"missed": "Missed",
+
+"habit_score": "Habit Score",
+
+"unlocked": "Unlocked",
+"locked": "Locked",
+
+"days": "Days",
+
+"best_day": "Best Day",
+
+"productivity": "Productivity",
+
+"total_habits": "Total Habits",
+
+"completed_habits": "Completed Habits",
+
+"calendar_view": "Habit Calendar"
+
 }

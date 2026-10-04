@@ -19,13 +19,26 @@ return [
     ],
 
 
-    'allowed_origins' => [
-        'http://localhost:8081',
-        'http://127.0.0.1:8081',
+    /*
+    |--------------------------------------------------------------------------
+    | Development Origins
+    |--------------------------------------------------------------------------
+    |
+    | Regex নিচে localhost এবং 127.0.0.1-এর যেকোনো dev port
+    | allow করবে।
+    |
+    */
+
+    'allowed_origins' => [],
+
+
+    'allowed_origins_patterns' => [
+
+        '#^http://localhost:\d+$#',
+
+        '#^http://127\.0\.0\.1:\d+$#',
+
     ],
-
-
-    'allowed_origins_patterns' => [],
 
 
     'allowed_headers' => [
@@ -38,6 +51,15 @@ return [
 
     'max_age' => 0,
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Bearer Token
+    |--------------------------------------------------------------------------
+    |
+    | আপনার app Bearer token ব্যবহার করছে, cookie-based auth না।
+    |
+    */
 
     'supports_credentials' => false,
 

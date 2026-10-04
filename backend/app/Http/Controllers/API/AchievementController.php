@@ -3,41 +3,101 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Services\AchievementService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\Achievement;
 
 class AchievementController extends Controller
 {
+    public function __construct(
+        private AchievementService $achievementService
+    ) {
+    }
 
 
-public function index(Request $request)
-{
+    /*
+    |--------------------------------------------------------------------------
+    | Achievement List
+    |--------------------------------------------------------------------------
+    */
 
-return response()->json(
-$request->user()->achievements
-);
+    public function index(
+        Request $request
+    ): JsonResponse {
 
-}
-
-
-
-public function store(Request $request)
-{
-
-$achievement = Achievement::create([
-
-'user_id'=>$request->user()->id,
-
-'title'=>$request->title,
-
-'description'=>$request->description
-
-]);
+        $user =
+            $request->user();
 
 
-return response()->json($achievement);
+        if (!$user) {
 
-}
+            return response()->json([
+                'message' =>
+                    'Unauthenticated.',
+            ], 401);
+
+        }
 
 
+        $result =
+            $this
+                ->achievementService
+                ->listForUser(
+                    $user
+                );
+
+
+        $items =
+            collect(
+                $result[
+                    'achievements'
+                ]
+            );
+
+
+        return response()->json([
+
+            'total' =>
+                $items->count(),
+
+            'unlocked' =>
+                $items
+                    ->where(
+                        'unlocked',
+                        true
+                    )
+                    ->count(),
+
+            'locked' =>
+                $items
+                    ->where(
+                        'unlocked',
+                        false
+                    )
+                    ->count(),
+
+            'achievements' =>
+                $items->values(),
+
+            'newly_unlocked' =>
+                $result[
+                    'newly_unlocked'
+                ],
+
+            'reward' => [
+
+                'xp' =>
+                    $result[
+                        'reward_xp'
+                    ],
+
+                'coins' =>
+                    $result[
+                        'reward_coins'
+                    ],
+
+            ],
+
+        ]);
+    }
 }
