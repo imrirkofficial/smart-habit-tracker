@@ -14,19 +14,24 @@ import {
 | API Base URL
 |--------------------------------------------------------------------------
 |
-| Web:
-| Laravel runs on the same PC.
+| Development:
+|   Web      → localhost Laravel
+|   Android  → PC LAN IP Laravel
 |
-| Android/iOS physical device:
-| localhost/127.0.0.1 will NOT point to your PC.
-| Replace the LAN IP below with your computer's current IPv4 address.
+| Production:
+|   Render Laravel API
 |
 */
 
+
 const API_URL =
-    Platform.OS === "web"
-        ? "http://127.0.0.1:8000/api"
-        : "http://192.168.0.101:8000/api";
+    __DEV__
+        ? (
+            Platform.OS === "web"
+                ? "http://127.0.0.1:8000/api"
+                : "http://192.168.0.101:8000/api"
+          )
+        : "https://smart-habit-tracker-lenq.onrender.com/api";
 
 
 
@@ -34,7 +39,7 @@ const api = axios.create({
 
     baseURL: API_URL,
 
-    timeout: 15000,
+    timeout: 20000,
 
     headers: {
 
@@ -64,7 +69,7 @@ api.interceptors.request.use(
             await getToken();
 
 
-        if(token){
+        if (token) {
 
             config.headers.Authorization =
                 `Bearer ${token}`;
@@ -86,9 +91,10 @@ api.interceptors.request.use(
 
     error => {
 
+
         console.log(
             "API REQUEST ERROR:",
-            error
+            error.message
         );
 
 
@@ -127,7 +133,8 @@ api.interceptors.response.use(
     error => {
 
 
-        if(error.response){
+        if (error.response) {
+
 
             console.log(
                 "API RESPONSE ERROR:",
@@ -135,18 +142,18 @@ api.interceptors.response.use(
                 error.response.data
             );
 
-        }
 
-        else if(error.request){
+        } else if (error.request) {
+
 
             console.log(
                 "API NETWORK ERROR:",
                 error.message
             );
 
-        }
 
-        else{
+        } else {
+
 
             console.log(
                 "API ERROR:",
@@ -161,6 +168,7 @@ api.interceptors.response.use(
     }
 
 );
+
 
 
 export default api;
