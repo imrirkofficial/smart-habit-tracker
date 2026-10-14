@@ -19,26 +19,14 @@ return [
     ],
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Development Origins
-    |--------------------------------------------------------------------------
-    |
-    | Regex নিচে localhost এবং 127.0.0.1-এর যেকোনো dev port
-    | allow করবে।
-    |
-    */
-
-    'allowed_origins' => [],
-
-
-    'allowed_origins_patterns' => [
-
-        '#^http://localhost:\d+$#',
-
-        '#^http://127\.0\.0\.1:\d+$#',
-
+    'allowed_origins' => [
+        'https://delicate-stroopwafel-7e38e9.netlify.app',
+        'http://localhost:8081',
+        'http://localhost:19006',
     ],
+
+
+    'allowed_origins_patterns' => [],
 
 
     'allowed_headers' => [
@@ -51,15 +39,6 @@ return [
 
     'max_age' => 0,
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sanctum Bearer Token
-    |--------------------------------------------------------------------------
-    |
-    | আপনার app Bearer token ব্যবহার করছে, cookie-based auth না।
-    |
-    */
 
     'supports_credentials' => false,
 
