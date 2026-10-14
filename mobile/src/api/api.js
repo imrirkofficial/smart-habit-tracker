@@ -1,37 +1,23 @@
 import axios from "axios";
 
 import {
-    Platform
-} from "react-native";
-
-import {
     getToken
 } from "../storage/token";
 
 
 /*
 |--------------------------------------------------------------------------
-| API Base URL
+| Production API URL
 |--------------------------------------------------------------------------
 |
-| Development:
-|   Web      → localhost Laravel
-|   Android  → PC LAN IP Laravel
-|
-| Production:
-|   Render Laravel API
+| Laravel Backend:
+| Render + Supabase PostgreSQL
 |
 */
 
 
 const API_URL =
-    __DEV__
-        ? (
-            Platform.OS === "web"
-                ? "http://127.0.0.1:8000/api"
-                : "http://192.168.0.101:8000/api"
-          )
-        : "https://smart-habit-tracker-lenq.onrender.com/api";
+    "https://smart-habit-tracker-lenq.onrender.com/api";
 
 
 
@@ -39,7 +25,7 @@ const api = axios.create({
 
     baseURL: API_URL,
 
-    timeout: 20000,
+    timeout: 30000,
 
     headers: {
 
@@ -143,7 +129,8 @@ api.interceptors.response.use(
             );
 
 
-        } else if (error.request) {
+        } 
+        else if (error.request) {
 
 
             console.log(
@@ -152,7 +139,8 @@ api.interceptors.response.use(
             );
 
 
-        } else {
+        } 
+        else {
 
 
             console.log(
